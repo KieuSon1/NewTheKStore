@@ -1,0 +1,12 @@
+﻿form .account-options {
+    margin-top: 5px;
+}
+
+    form .account-options a {
+        text-decoration: none;
+    }
+
+.label-email {
+    color: gray;
+    font-size: smaller;
+}

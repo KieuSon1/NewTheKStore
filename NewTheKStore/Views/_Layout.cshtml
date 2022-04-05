@@ -1,0 +1,207 @@
+﻿
+@{
+    if (!string.IsNullOrEmpty(Session["username"] as string))
+    {
+        ViewBag.userName = Session["username"].ToString();
+        ViewBag.admin = Session["admin"];
+    }
+    else
+    {
+        ViewBag.userName = "";
+    }
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheKStore</title>
+    <!-- import Bootstrap css, js, font --->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../Content/Style-home.css">
+
+</head>
+
+<body>
+    <header class="site-header sticky-top">
+        <nav class="navbar navbar-dark bg-dark navbar-expand-md sticky-top justify-content-center">
+            <div class="container">
+                <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarResponsive">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a href="@Url.Action("Index", "Home")" class="md-lg-hidden">
+                    <img src="../Content/img/icon/Logo.svg" height="20" alt="TheKStore">
+                </a>
+                <a href="#" class="md-lg-hidden">
+                    <img src="../Content/img/icon/Bag.png" height="20" alt="">
+                </a>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto m-auto mx-auto">
+                        <li class="nav-item mr-5 my-auto sm-hidden">
+                            <a href="@Url.Action("Index", "Home")" class="thekstore">
+                                <img src="../Content/img/icon/Logo.svg" height="20" alt="TheKStore">
+                            </a>
+                        </li>
+                        <li class="nav-item mx-5 my-2">
+                            <a href="@Url.Action("Index","Home")" " class="nav-link">NoteBook</a>
+                        </li>
+                        <li class="nav-item mx-5 my-2">
+                            <a href="@Url.Action("Index","Home")" class="nav-link">Desktop</a>
+                        </li>
+                        <li class="nav-item mx-5 my-2">
+                            <a href="@Url.Action("Index", "Home")" class="nav-link">Display</a>
+                        </li>
+                        <li class="nav-item mx-5 my-2">
+                            <a href="@Url.Action("Index", "Home")" class="nav-link">Accessories</a>
+                        </li>
+                        <li class="nav-item mx-5 my-2">
+                            <a href="@Url.Action("Index", "Home")" class="nav-link">Support</a>
+                        </li>
+                        <li class="nav-item mx-5 my-auto sm-hidden">
+                            <a href="@Url.Action("Cart", "Home")" class="navbar-branch">
+                                <img src="../Content/img/icon/Bag.png" height="20" alt="">
+                            </a>
+                        </li>
+                        <li class="nav-item mx-5 my-2 md-lg-hidden">
+                            <a class="user-email" href="#">@ViewBag.userName</a>
+                        </li>
+                        <li class="nav-item ml-5 my-auto sm-hidden">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-outline-dark user dropdown-toggle" data-toggle="dropdown">
+                                    <img src="../Content/img/icon/User.png" height="20" alt="">
+                                </button>
+                                <div class="dropdown-menu">
+                                    @if (ViewBag.userName == null || ViewBag.userName == "")
+                                    {// new { area = "ConfirmCart" }
+                                        if (ViewBag.Page == null || ViewBag.Page == "")
+                                        {
+                                            <a class="dropdown-item" href="@Url.Action("Login", "Home")">Sign in</a>
+                                            <a class="dropdown-item" href="@Url.Action("SignUp", "Home")">Sign up</a>
+                                        }
+
+                                        else
+                                        {
+
+                                            <a class="dropdown-item" href="@Url.Action("Login", "Home", new { area = @ViewBag.Page })">Sign in</a>
+                                            <a class="dropdown-item" href="@Url.Action("SignUp", "Home", new { area = @ViewBag.Page })">Sign up</a>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (ViewBag.admin == true)
+                                        {
+                                            <a class="dropdown-item" style="cursor:pointer;" onclick="admin()">Admin</a>
+                                        }
+                                        <!-- Bổ Sung Thêm Phần Cập Nhật Thông Tin Cho Tài Khoản -->
+                                        <h5 class="dropdown-item user-email">@ViewBag.userName</h5>
+                                        <a class="dropdown-item" style="cursor:pointer;" href="@Url.Action("UpdateInfo","Home")">My Profile</a>
+                                        <a class="dropdown-item" style="cursor:pointer;" href="@Url.Action("ChangePassword","Home")">Change Password</a>
+                                        <hr class="dropdown-divider">
+                                        <a class="dropdown-item" style="cursor:pointer;" onclick="logOut()">Sign Out</a>
+                                    }
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+
+
+            </div>
+        </nav>
+    </header>
+
+
+    @RenderBody();
+
+
+<footer class="container mb-5 text-light mx-auto">
+    <div class="row">
+        <div class="col-lg-3 col-sm-6 col-6">
+            <img src="../Content/img/icon/LogoFooter.svg" alt="TheKStore" style="height: 30px;">
+            <small class="d-block mb-3 text-muted">© 2021–Present</small>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-6">
+            <h5>Shop</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="link-secondary" href="@Url.Action("Index", "Home")">NoteBook</a></li>
+                <li><a class="link-secondary" href="@Url.Action("Index", "Home")">Desktop</a></li>
+                <li><a class="link-secondary" href="@Url.Action("Index", "Home")">Display</a></li>
+                <li><a class="link-secondary" href="@Url.Action("Index", "Home")">Accessories</a></li>
+            </ul>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-6">
+            <h5>About</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="link-secondary" href="@Url.Action("Index", "Home")">Location</a></li>
+                <li><a class="link-secondary" href="@Url.Action("Index", "Home")">Contact</a></li>
+            </ul>
+        </div>
+        <div class="col-lg-3 col-sm-6 col-6">
+            <h5>Policies</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="link-secondary" href="@Url.Action("Index", "Home")">Shipping</a></li>
+                <li><a class="link-secondary" href="@Url.Action("Index", "Home")">Warranty</a></li>
+                <li><a class="link-secondary" href="@Url.Action("Index", "Home")">Returns</a></li>
+            </ul>
+        </div>
+    </div>
+    <iframe class="mt-5 me-5 float-end" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15673.682645064993!2d106.785103!3d10.855575!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb6cf10bb7d719327!2sHUTECH%20University%20-%20E%20Campus%20(SHTP)!5e0!3m2!1svi!2sus!4v1625553645545!5m2!1svi!2sus" width="30%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+</footer>
+
+
+    <script>
+        function logOut() {
+        window.location.href = "@Url.Action("LogOut")";
+        }
+
+        function admin(){
+        window.location.href = "@Url.Action("Index", "Admin")";
+        }
+
+
+    </script>
+
+</body>
+
+
+
+</html>
+
+<!-- Messenger Plugin chat Code -->
+<div id="fb-root"></div>
+
+<!-- Your Plugin chat code -->
+<div id="fb-customer-chat" class="fb-customerchat">
+</div>
+
+<script>
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.setAttribute("page_id", "104457248546583");
+    chatbox.setAttribute("attribution", "biz_inbox");
+
+    window.fbAsyncInit = function () {
+        FB.init({
+            xfbml: true,
+            version: 'v11.0'
+        });
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>

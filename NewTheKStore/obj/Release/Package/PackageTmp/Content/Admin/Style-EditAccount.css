@@ -1,0 +1,22 @@
+﻿body {
+    background-color:gray;
+}
+
+.input-field .lb{
+    color : black;
+}
+
+.input-field .txt {
+    color: black;
+}
+
+.input-field{
+    top :500px;
+    left : 500px;
+}
+
+@media  (min-width: 329px) {
+    .update-info{
+        display : flex;
+    }
+}

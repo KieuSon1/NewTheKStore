@@ -1,0 +1,196 @@
+﻿@using NewTheKStore.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<product> product = ViewBag.product;
+    int id = ViewBag.id;
+}
+
+@if (id < 1 || id > 4)
+{
+    <div class="container-fluid bg-black pb-5">
+        <div id="slides" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <a href="@Url.Action("Product", "Home")?id=1">
+                        <picture>
+                            <source media="(min-width: 992px)" srcset="../Content/img/product/carousel/MBA_LARGE.jpg">
+                            <source media="(min-width: 768px)" srcset="../Content/img/product/carousel/MBA_MEDIUM.jpg">
+                            <img src="../Content/img/product/carousel/MBA_SMALL.jpg" alt="New MacBook Air">
+                        </picture>
+                    </a>
+                    <div class="carousel-caption mb-4">
+                        <h1>MacBook Air</h1>
+                        <h3>Thinnest, lightest, quietest NoteBook</h3>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <a href="@Url.Action("Product", "Home")?id=4">
+                        <picture>
+                            <source media="(min-width: 992px)" srcset="../Content/img/product/carousel/MBP_LARGE.jpg">
+                            <source media="(min-width: 768px)" srcset="../Content/img/product/carousel/MBP_MEDIUM.jpg">
+                            <img src="../Content/img/product/carousel/MBP_SMALL.jpg" alt="New MacBook Pro">
+                        </picture>
+                    </a>
+                    <div class="carousel-caption mb-4">
+                        <h1>MacBook Pro</h1>
+                        <h3>All system pro, small body, giant leap. </h3>
+                    </div>
+                </div>
+                <ul class="carousel-indicators">
+                    <li data-target="#slides" data-slide-to="0" class="active"></li>
+                    <li data-target="#slides" data-slide-to="1"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+<!-- End of Carousel-->
+
+<!-- Spotlight items-->
+
+
+
+@if (id < 1 || id > 4)
+{
+    <div class="container product-area mt-5">
+        <div class="row mt-4">
+            <div class="col-lg-6 align-img-left">
+                <a href="@Url.Action("Index", "Home")?id=1" class="category-link">
+                    <img class="rounded float-left" src="../Content/img/product/general/notebook.png" width="95%" alt="">
+                </a>
+            </div>
+            <div class="col-lg-6 align-img-right">
+                <a href="@Url.Action("Index", "Home")?id=2" class="category-link">
+                    <img class="rounded float-right" src="../Content/img/product/general/desktop.png" width="95%" alt="">
+                </a>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-lg-4 align-img-left">
+                <a href="@Url.Action("Index", "Home")?id=4" class="category-link">
+                    <img class="rounded float-left" src="../Content/img/product/general/accessories.png" width="95%" alt="">
+                </a>
+            </div>
+            <div class="col-lg-8 align-img-right">
+                <a href="@Url.Action("Index", "Home")?id=3" class="category-link">
+                    <img class="rounded float-right" src="../Content/img/product/general/display.png" width="95%" alt="">
+                </a>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="container-os col-12">
+                <a href="#">
+                    <img src="./img/Product/OS_BIGSUR.jpg" width="100%" alt="">
+                    <div class="centered-v-h">
+                        <h1 class="sm-xs-size">macOS Big Sur</h1>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container-os col-12">
+                <a href="#">
+                    <img src="../Content/img/product/OS_BIGSUR.jpg" width="100%" alt="">
+                    <div class="centered-v-h">
+                        <h1 class="sm-xs-size">macOS Big Sur</h1>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+}
+
+
+@if (id >= 1 && id <= 4)
+{
+<div class="container product-area mt-5">
+        @if (id == 1 || id == 2)
+        {
+            <div class="spotlight">
+                <h2 class="text-center">Let's see our things for you.</h2>
+                <div class="product-computer text-center mt-5">
+                    <a href="@Url.Action("Index", "Home")?id=1" class="mx-2">NoteBook</a>
+                    <a href="@Url.Action("Index", "Home")?id=2" class="mx-2">Desktop</a>
+                </div>
+                <hr class="mt-4">
+            </div>
+        }
+    <div class="row px-5">
+        @for (int i = 0; i < (product.Count >= 3 ? 3 : product.Count); i++)
+        {
+            <div class="col-lg-4 col-sm-6 col-6">
+                <div class="card-body">
+                    <a href="@Url.Action("Product", "Home")?id=@product[i].productID">
+                        <img class="card-img-top" src="../Content/img/product/list/@product[i].imgscr" alt="">
+                    </a>
+                    <h4 class="card-text name">@product[i].name</h4>
+                    <h5 class="card-text price">From @string.Format("{0:#,##0.00}", product[i].price).Replace(".00", String.Empty) Đ</h5>
+                    <a href="@Url.Action("Product", "Home")?id=@product[i].productID">
+                        <button class="btn btn-primary centered">Buy</button>
+                    </a>
+                    <hr class="mt-4 mb-3">
+                    @if (product[i].categorize == "notebook" || product[i].categorize == "desktop" || product[i].categorize == "display")
+                    {
+                        if (product[i].display == "none")
+                        {
+                            <h4 class="card-text description">
+                                None
+                                <h6 class="sub-description">Extended display ouput</h6>
+                            </h4>
+                        }
+                        else
+                        {
+                            <h4 class="card-text description">
+                                @product[i].display"
+                                <h6 class="sub-description">Retina Display</h6>
+                            </h4>
+                        }
+
+                    }
+
+                    @if (product[i].categorize == "notebook" || product[i].categorize == "desktop")
+                    {
+                        <div class="centered mt-5">
+                            @if (product[i].processor == "M1")
+                            {
+                                <img class="centered mt-4" src="../Content/img/product/general/M1.png" width="15%" alt="">
+                                <h6 class="sub-description mt-4">Apple M1 Chip</h6>
+                            }
+                            else if (product[i].processor == "i5")
+                            {
+                                <img class="centered mt-4" src="../Content/img/product/general/corei5.png" width="15%" alt="">
+                                <h6 class="sub-description">4-cores Intel Core i5</h6>
+                            }
+                            else if (product[i].processor == "i7")
+                            {
+                                <img class="centered mt-4" src="../Content/img/product/general/corei7.png" width="15%" alt="">
+                                <h6 class="sub-description">6-cores Intel Core i7</h6>
+                            }
+                            else if (product[i].processor == "i9")
+                            {
+                                <img class="centered mt-4" src="../Content/img/product/general/corei9.png" width="15%" alt="">
+                                <h6 class="sub-description">8-cores Intel Core i9</h6>
+                            }
+                        </div>
+                        <h4 class="card-text description">
+                            @product[i].storage
+                            <h6 class="sub-description">SSD Storage</h6>
+                        </h4>
+                        <hr class="mt-4 mb-3">
+                    }
+
+                    <a href="">
+                        <h6 class="description link">
+                            Learn more>
+                        </h6>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+}
+<hr class="my-5">
+
+

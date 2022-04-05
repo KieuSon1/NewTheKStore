@@ -1,0 +1,71 @@
+﻿@using NewTheKStore.Models;
+@using NewTheKStore.Controllers;
+@{
+    ViewBag.Title = "ComfirmPay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Cart> cart = ViewBag.cart;
+    List<product> product = ViewBag.product;
+    decimal totalPrice = 0;
+    account account = ViewBag.accResult;
+    bool locaAccisNull = false;
+
+    if (account.location == null)
+    {
+        locaAccisNull = true;
+    }
+}
+
+<div class="container item-pane py-5">
+    <div class="row ">
+        <div class="col-lg-6">
+            <h5>Selected item</h5>
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">Option</th>
+                        <th scope="col">Qantity</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < cart.Count; i++)
+                    {
+                        product p = @product.FirstOrDefault(x => x.productID == cart[i].id);
+                        totalPrice += (decimal)(cart[i].price * cart[i].count);
+                        <tr>
+                            <th scope="row">@(i+1)</th>
+                            <td>@product.Find(x => x.productID == cart[i].id).name</td>
+                            <td>@product.Find(x => x.productID == cart[i].id).processor / @product.Find(x => x.productID == cart[i].id).memory / @product.Find(x => x.productID == cart[i].id).storage</td>
+                            <td>@cart[i].count</td>
+                            <td>@string.Format("{0:#,##0}", @cart[i].price * @cart[i].count).Replace(".0000", String.Empty) đ</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <h5>TOTAL: @string.Format("{0:#,##0}", @totalPrice).Replace(".0000", String.Empty) Đ</h5>
+        </div>
+        <div class="col-lg-6">
+             @if (ViewBag.userName == null || ViewBag.userName == "")
+             {
+                 <a id="linkThanhToan" class="d-block" href="@Url.Action("Login", "Home")">
+                     <button class="btn btn-primary">CHECK OUT</button>
+                 </a>
+             }
+             else
+             { 
+                <h6>Shipping to: @account.location</h6>
+                <hr>
+                <h6>Email: @account.email</h6>
+                <h6>Phone number: @account.phone</h6>
+                <h6>Order date: @DateTime.Today</h6>
+                <h6>Estimated delivery date: @DateTime.Today.AddDays(2)</h6>
+             }
+
+        </div>
+
+    </div>
+
+</div>
+

@@ -1,0 +1,58 @@
+﻿@using NewTheKStore.Models;
+@{
+    ViewBag.Title = "UpdateInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    account acc = ViewBag.acc;
+}
+
+<head>
+    <link href="../Content/Style-login.css" rel="stylesheet" />
+</head>
+<div class="container signin-area">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Update your infomation.</h5>
+                    <form class="form-signin" action="SaveAccountInfo">
+                        <div class="form-label-group">
+                            <input type="email" name="email" id="inputEmail" class="form-control" placeholder="name@example.com" value="@acc.email" required autofocus>
+                            <label class="label-email" for="inputEmail">Your E-mail.</label>
+                        </div>
+                        <hr class="my-2">
+                        <div class="form-label-group">
+                            <input type="tel" id="inputPhone" name="phone" class="form-control" placeholder="Your phone number." value="@acc.phone" required>
+                            <label class="label-email" for="inputEmail">Your Phone number.</label>
+                        </div>
+                        <hr class="my-2">
+                        <div class="form-label-group">
+                            <input type="text" id="inputAddress" name="location" class="form-control" placeholder="Your Adress." value="@acc.location" required>
+                            <label class="label-email" for="inputEmail">Your Adress.</label>
+                        </div>
+                        <hr class="my-2">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="save()" >Update</button>
+                        <div class="account-options">                          
+                            <a href="@Url.Action("Login","Home")" class="register">Go to login.</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="my-5" />
+</div>
+<script>
+        function save() {
+
+            var inputEmail = document.getElementById("inputEmail").innerHTML || document.getElementById("inputEmail").value;
+            var inputPhone = document.getElementById("inputPhone").innerHTML || document.getElementById("inputPhone").value;
+            var inputAddress = document.getElementById("inputAddress").innerHTML || document.getElementById("inputAddress").value;
+            if (inputEmail == "" || inputPhone == "" || inputAddress == "") {
+                alert('Make sure you fill all the infomations !');
+            } @*else {
+                window.location.href = window.location.protocol + "//" + window.location.host + "@Url.Action("SaveAccountInfo","Home")?id=@acc.userID&email=" + inputEmail + "&phone=" + inputPhone + "&location=" + inputAddress;
+            }*@
+        }
+</script>
+
+

@@ -1,0 +1,83 @@
+﻿.card-body {
+    position: relative;
+}
+
+.card-text h2 {
+    position: relative;
+}
+
+.card-text h5 {
+    position: relative;
+    font-size: 100%;
+    color: rgb(58, 58, 58);
+    font-weight: 300;
+}
+
+hr {
+    height: 1px !important;
+    color: black;
+}
+
+.M1-link {
+    text-decoration: none;
+}
+
+    .M1-link :hover {
+        color: blue;
+        text-decoration: underline;
+    }
+
+.btn-block {
+    border-color: gray;
+    height: 70px;
+}
+
+    .btn-block:hover {
+        border-color: black;
+    }
+
+    .btn-block:active {
+        border-color: blue !important;
+        shape-outside: none;
+    }
+
+.product-pane h5 {
+    font-weight: 300;
+    font-size: medium;
+}
+
+.icon {
+    max-width: 70% !important;
+    position: relative !important;
+    justify-content: center !important;
+}
+
+.choice-selection-left {
+    text-align: left;
+}
+
+.choice-selection-center {
+    text-align: center;
+}
+
+.choice-selection-right {
+    text-align: right;
+}
+
+.option-selections a:hover {
+    text-decoration: none;
+}
+
+.btn-selected {
+    background-color: powderblue !important;
+}
+
+.product-pane .btn {
+    border-radius: 20px;
+    padding: 1px 6px 1px 6px;
+    margin-top: 2rem;
+}
+
+.purchase-proceed a:hover{
+    text-decoration: none;
+}

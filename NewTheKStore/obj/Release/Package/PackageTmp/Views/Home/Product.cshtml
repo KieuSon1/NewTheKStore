@@ -1,0 +1,159 @@
+﻿@using NewTheKStore.Models;
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<product> products = ViewBag.product;
+    int id = ViewBag.id;
+    product pSelected = products.FirstOrDefault(x => x.productID == id);
+}
+
+<head>
+    <link href="../Content/Style-product.css" rel="stylesheet" />
+</head>
+<div class="container pt-5">
+    <div class="row ">
+        <div class="card-body col-lg-6 col-sm-12 product-pane">
+            <img class="card-img-top" src="../Content/img/product/list/@products[0].imgscr"  alt="">
+            <h5 class="text-center gallery-link">
+                <a href="">View gallery</a>
+            </h5>
+            <hr>
+            <div class="multi-selection purchase-proceed mt-5">
+                <div class="row">
+                    <div class="col-lg-6 py-2 choice-selection-center my-auto">
+                        <h4>@string.Format("{0:#,##0.00}", @products.FirstOrDefault(x => x.productID == id).price).Replace(".00", String.Empty) Đ</h4>
+                        <h5>(Tax included)</h5>
+                    </div>
+                    <div class="col-lg-6 py-2">
+                        <a href="@Url.Action("Addcart", "Home")?id=@pSelected.productID&count=1&price=@pSelected.price&name=@pSelected.name&url=" onclick="changeHrefAdd()">
+                            <button class="btn btn-lg btn-primary btn-block my-auto" type="button">
+                                <h5>ADD TO CART</h5>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="row pt-3">
+            <div class=" card-body col-lg-4 col-sm-4">
+                <img class="card-img-right icon" src="~/Content/img/icon/delivery.png" alt="">
+                <h5 class="text-left">
+                    Free delivery
+                </h5>
+            </div>
+            <div class=" card-body col-lg-4 col-sm-4">
+                <img class="card-img-right icon" src="~/Content/img/icon/Check.png" alt="">
+                <h5 class="text-left">
+                    Free warranty
+                </h5>
+                <a href="">View policies></a>
+            </div>
+            <div class=" card-body col-lg-4 col-sm-4">
+                <img class="card-img-right icon" src="~/Content/img/icon/LogoFooter.svg" alt="">
+                <h5 class="text-left">
+                    Pick-up
+                </h5>
+                <a href="">View stores></a>
+            </div>
+        </div>*@
+        </div>
+
+        <div class="card-body col-lg-6 col-sm-12">
+            <div class="card-text text-left">
+
+                @if (products[0].categorize == "notebook" || products[0].categorize == "desktop")
+                {
+
+                    <h2 class="product-name pb-2">
+                        Customize your @products[0].name
+                    </h2>
+                        if (@products.FirstOrDefault(x => x.productID == id).processor == "M1")
+                        {
+                            <h5 class="pt-2 pb-2">
+                                Apple M1 chip with 8-core CPU with 4 performance cores and 4 efficiency cores, 7-core GPU, and 16-core Neural Engine
+                            </h5>
+                        }
+                        else if (@products.FirstOrDefault(x => x.productID == id).processor == "i5")
+                        {
+                            <h5 class="pt-2 pb-2">
+                                2.0GHz quad-core 10th-generation Intel Core i5 processor.
+                            </h5>
+                        }
+                        else if (@products.FirstOrDefault(x => x.productID == id).processor == "i7")
+                        {
+                            <h5 class="pt-2 pb-2">
+                                2.6GHz 6-core 9th-generation Intel Core i7 processor.
+                            </h5>
+                        }
+                        else if (@products.FirstOrDefault(x => x.productID == id).processor == "i9")
+                        {
+                            <h5 class="pt-2 pb-2">
+                                2.3GHz 8-core 9th-generation Intel Core i9 processor
+                            </h5>
+                        }            
+
+
+                    <h5 class="pt-2 pb-2">
+                        @products.FirstOrDefault(x => x.productID == id).storage SSD storage
+                    </h5>
+                    <h5 class="pt-2 pb-2">
+                        @products.FirstOrDefault(x => x.productID == id).memory GB memory
+                    </h5>
+                    if (products[0].processor == "M1")
+                    {
+                        <a class="M1-link" href="">Learn more about M1 chip ></a>
+                    }
+                    <hr>
+
+                    <h4 class="pt-2">
+                        Other options.
+                    </h4>
+                    <h5 class="pt-1 pb-2">
+                        <a href="">Which option is right for you?</a>
+                    </h5>
+                }
+                <div class="option-selections">
+
+                    @for (int i = 0; i < products.Count; i++)
+                    {
+                        if (products[i].categorize == "notebook" || products[i].categorize == "desktop")
+                        {   
+                    <a class="selection-option  p-3" href="@Url.Action("Product", "Home")?id=@products[i].productID">
+
+                            @if (products[i].productID == id)
+                            {
+                            <button class="btn btn-selected btn-outline btn-block" type="button">
+                                <div class="row">
+                                    <h5 class="choice-selection-left col-lg-4">@products[i].processor Processor</h5>
+                                    <h5 class="choice-selection-center col-lg-4">@products[i].memory GB Memory</h5>
+                                    <h5 class="choice-selection-right col-lg-4">@products[i].storage SSD Storage</h5>
+                                </div>
+                            </button>
+                            }
+                            else
+                            {
+                            <button class="btn btn-outline btn-block" type="button">
+                                <div class="row">
+                                    <h5 class="choice-selection-left col-lg-4">@products[i].processor Processor</h5>
+                                    <h5 class="choice-selection-center col-lg-4">@products[i].memory GB Memory</h5>
+                                    <h5 class="choice-selection-right col-lg-4">@products[i].storage SSD Storage</h5>
+                                </div>
+                            </button>
+                            }
+                            
+                        </a>                            
+                                    }
+                                }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+
+<script>
+
+    function changeHrefAdd() {
+        alert('Cart added');
+    }
+</script>

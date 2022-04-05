@@ -1,0 +1,110 @@
+﻿@using NewTheKStore.Models;
+@{
+    ViewBag.Title = "ListAccount";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    List<account> acc = ViewBag.account;
+}
+<link rel="stylesheet" href="../Content/Admin/style-ListAccount.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<div class="Content animated fadeIn">
+    <!-- Đây Là Chỗ Để Render Body Khi Quăng Vào MVC -->
+    <!-- Nó Sẽ Thay Đổi Dựa Theo Người Dùng Muốn Click Coi Gì -->
+    <div class="container-fluid">
+        <div class="row">
+            <h5 class="col-lg-2 col-md-3 col-sm-5 col-10  my-auto mx-3" style="color : white">Danh sách tài khoản</h5>
+        </div>
+        <div class="dropdown listsearch mb-3 mt-3">
+            Tìm Kiếm theo:
+            <button class="btn btnlistsearch dropdown-toggle ml-1" type="button" id="dropdownListSearch" data-bs-toggle="dropdown" aria-expanded="false">Email</button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownListSearch">                
+                <li><a class="dropdown-item" href="#" onclick="FindTypeAccount(0)">Email</a></li>                
+                <li><a class="dropdown-item" href="#" onclick="FindTypeAccount(1)">Admin</a></li>
+                <li><a class="dropdown-item" href="#" onclick="FindTypeAccount(2)">User</a></li>
+            </ul>
+            <form class="d-inline-flex ms-3">
+                <input class="form-control me-2" id="findInput" type="search" placeholder="Search" aria-label="Search">
+                <button class="btnsearch" onclick="search()">
+                    <a href="#" id="searchButton" onclick="search()">Search</a>
+                </button>
+            </form>
+        </div>
+    </div>
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Email</th>
+                <th scope="col">Số Điện Thoại</th>
+                <th scope="col">Khu Vực</th>
+                <th scope="col">Admin</th>
+                <th scope="col">Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (acc.Count == 0)
+            {
+                <tr>
+                    <h5 style="color : white">Không tìm thấy tài khoản!</h5>
+                </tr>
+            }
+            else
+            {
+                for (int i = 0; i < acc.Count; i++)
+                {
+                    <tr>
+                        <th scope="row">@(i + 1)</th>
+                        <td>@acc[i].email</td>
+                        <td>@acc[i].phone</td>
+                        <td>@acc[i].location</td>
+                        <td>@acc[i].admin</td>
+                        <td>
+                            <a href="@Url.Action("UpdateInfo")?id=@acc[i].userID">Chỉnh Sửa</a>
+                            <a class="ml-1" href="@Url.Action("RemoveAccount")?acc=@acc[i].email">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            }
+
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function FindTypeAccount(id) {
+        switch (id) {
+            
+            case 0:
+                document.getElementById('dropdownListSearch').innerHTML = 'Email';
+                document.getElementById('findInput').disabled = false;
+                break;            
+            case 1:
+                document.getElementById('dropdownListSearch').innerHTML = 'Admin';
+                document.getElementById('findInput').disabled = true;
+                break;
+            case 2:
+                document.getElementById('dropdownListSearch').innerHTML = 'User';
+                document.getElementById('findInput').value = "";
+                document.getElementById('findInput').disabled = true;
+                break;
+        }
+    }
+
+    function search() {
+        if (document.getElementById('dropdownListSearch').innerHTML == 'Email') {
+            document.getElementById("searchButton").setAttribute("href", "@Url.Action("ListAccount")?email=" + document.getElementById('findInput').value);
+        }        
+        if (document.getElementById('dropdownListSearch').innerHTML == 'Admin') {
+            document.getElementById("searchButton").setAttribute("href", "@Url.Action("ListAccount")?admin=true");
+        }
+        if (document.getElementById('dropdownListSearch').innerHTML == 'User') {
+            document.getElementById("searchButton").setAttribute("href", "@Url.Action("ListAccount")?admin=false");
+        }
+    }
+
+    function SearchGo() {
+        window.location.href = document.getElementById("searchButton").getAttribute("href");
+    }
+</script>
+

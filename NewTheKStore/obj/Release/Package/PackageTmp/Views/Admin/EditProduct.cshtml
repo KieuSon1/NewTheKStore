@@ -1,0 +1,119 @@
+﻿@using NewTheKStore.Models;
+@{ 
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    int id ;
+    string name;
+    string image;
+    string subID;
+    decimal price;
+    string processor;
+    int memory;
+    string storage;
+    string display;
+    string categorize;
+    int index = -1;
+    if (ViewBag.index != null)
+    {
+        index = ViewBag.index;
+
+    }
+
+
+    if (ViewBag.id is null)
+    {
+        id = -1;
+        name = ViewBag.name;
+        image = "";
+        subID = "";
+        price = 0;
+        processor = "";
+        memory = 0;
+        storage = "";
+        display = "";
+        categorize = "";
+    }
+    else
+    {
+        id = ViewBag.id;
+        name = ViewBag.name;
+        image = ViewBag.image;
+        subID = ViewBag.subID;
+        price = ViewBag.price;
+        processor = ViewBag.processor;
+        memory = ViewBag.memory;
+        storage = ViewBag.storage;
+        display = ViewBag.display;
+        categorize = ViewBag.categorize;
+    }
+    }
+<link rel="stylesheet" href="../Content/Admin/style-EditProduct.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<div class="Content">
+    <!-- Đây Là Chỗ Để Render Body Khi Quăng Vào MVC -->
+    <!-- Nó Sẽ Thay Đổi Dựa Theo Người Dùng Muốn Click Coi Gì -->
+    <div class="container-fluid animated fadeIn">
+        <div class="row">
+            <div class="Home col-lg-2 col-md-3 col-sm-5 col-10 fw-bold my-2 mx-3">@ViewBag.Title</div>
+        </div>
+        <form action="SaveProduct">
+
+            @if (id == -1)
+            {
+                <h2>@ViewBag.Title</h2>
+                <label for="productid">Mã sản phẩm: </label> <input type="text" name="id" id="iProductID" class="text-pic" value="@(index+1)"><br>
+            }
+            else
+            {
+                <h2>@ViewBag.Title</h2>
+                <label for="productid">Mã sản phẩm: </label> <input type="text" name="id" id="iProductID" style="display:none" class="text-pic" value="@(id)"><br>
+            }
+
+            <!-------------------------------->
+            <label for="picture">Ảnh: </label> <input type="text" name="image" id="iImage" class="text-pic" value="@image"><br>
+            <!-------------------------------->
+            <label for="nameProduct">Tên Sản Phẩm: </label> <input type="text" name="name" id="iName" class="text-account" value="@name"><br>
+            <label for="nameProduct">Mã Dòng Sản Phẩm: </label> <input type="text" name="subID" id="iSubID" class="text-account" value="@subID"><br>
+            <!-------------------------------->
+            <label for="cartIcon">Vi Xử Lý</label> <input type="text" name="processor" id="iProcessor" class="text-size" value="@processor"><br>
+            <label for="cartIcon">Bộ nhớ: </label> <input type="text" name="memory" id="iMemory" class="text-size" value="@memory"><br>
+            <label for="cartIcon">Lưu trữ: </label> <input type="text" name="storage" id="iStorage" class="text-size" value="@storage"><br>
+            <label for="cartIcon">Màn hình: </label> <input type="text" name="display" id="iDisplay" class="text-size" value="@display"><br>
+            <!-------------------------------->
+            <label class="" for="number">Phân loại: </label> <input type="text" name="categorize" id="iCategorize" class="text-number" value="@categorize"><br>
+            <!-------------------------------->
+            <label class="pricelbl" for="cartIcon">Giá: </label> <input type="text" name="price" id="iPrice" class="text-size" value="@price"><br>
+            <!-------------------------------->
+            <button onclick="save()">
+                Lưu
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function save() {
+        var iProductID = document.getElementById("iProductID").innerHTML || document.getElementById("iProductID").value;
+        var iImage = document.getElementById("iImage").innerHTML || document.getElementById("iImage").value;
+        var iName = document.getElementById("iName").innerHTML || document.getElementById("iName").value;
+        var iSubID = document.getElementById("iSubID").innerHTML || document.getElementById("iSubID").value;
+        var iProcessor = document.getElementById("iProcessor").innerHTML || document.getElementById("iProcessor").value;
+        var iMemory = document.getElementById("iMemory").innerHTML || document.getElementById("iMemory").value;
+        var iStorage = document.getElementById("iStorage").innerHTML || document.getElementById("iStorage").value;
+        var iDisplay = document.getElementById("iDisplay").innerHTML || document.getElementById("iDisplay").value;
+        var iCategorize = document.getElementById("iCategorize").innerHTML || document.getElementById("iCategorize").value;
+        var iPrice = document.getElementById("iPrice").innerHTML || document.getElementById("iPrice").value;
+
+        if (iImage == "" || iName == "" || iSubID == "" || iProcessor == "" || iMemory == "" || iStorage == "" || iDisplay == "" || iCategorize == "" || iPrice == "") {
+            alert('Không để trống thông tin');
+        } else { //(int? id, string image, string name, string subID, string processor, int memory, string storage, string display, string categorize, string price)
+            if ("@id" == "-1") {
+                location.href = window.location.protocol + "//" + window.location.host + "@Url.Action("SaveProduct")?id="+ iProductID + "&image=" + iImage + "&price=" + iPrice.replace(",0000", "") + "&name=" + iName + "&subID=" + iSubID + "&processor=" + iProcessor + "&memory=" + iMemory + "&storage=" + iStorage + "&display=" + iDisplay + "&categorize=" + iCategorize ;
+            } else {
+                location.href = window.location.protocol + "//" + window.location.host + "@Url.Action("SaveProduct")?id=@id&image=" + iImage + "&price=" + iPrice.replace(",0000", "") + "&name=" + iName + "&subID=" + iSubID + "&processor=" + iProcessor + "&memory=" + iMemory + "&storage=" + iStorage + "&display=" + iDisplay + "&categorize=" + iCategorize ;
+            }
+            
+        }
+    }
+</script>
+

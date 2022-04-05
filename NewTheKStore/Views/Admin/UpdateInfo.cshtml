@@ -1,0 +1,63 @@
+﻿@using NewTheKStore.Models;
+@{
+    ViewBag.Title = "UpdateInfo";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    account acc = ViewBag.acc;
+}
+<link rel="stylesheet" href="../Content/Admin/Style-EditAccount.css">
+
+<div class="update-info mt-5">
+    <h4 class="mb-4">Cập Nhật Thông Tin</h4>
+    <form class="input-field mx-auto" action="SaveAccount">
+        <input class="txt" id="id" class="mb-2" type="text" name="id" style="display:none" value="@acc.userID"> <br>
+        <label class="lb" for="">Email</label> <br>
+        <input class="txt" id="uEmail" class="mb-2" type="email" name="email" value="@acc.email"> <br>
+        <label class="lb" for="">Mật Khẩu</label> <br>
+        <input class="txt" id="uPass" class="mb-2" type="text" name="pass" value="@acc.password"> <br>
+        <label class="lb" for="">Số Điện Thoại</label> <br>
+        <input class="txt" id="uPhone" class="mb-2" type="text" name="phone" value="@acc.phone"><br>
+        <label class="lb" for="">Khu Vực</label> <br>
+        <input class="txt" id="uLocation" class="mb-2" type="text" name="location" value="@acc.location"><br>
+        <label for="cars">Admin:</label>
+        <select id="admin" onchange="changeOption()">
+            @if (acc.admin == true)
+            {
+                <option id="admin" selected="selected">true</option>
+                <option id="user">false</option>
+                <input class="txt" id="iAdmin" class="mb-2" type="tel" name="admin" style="display:none" value="true">
+            }
+            else
+            {
+                <option id="admin">true</option>
+                <option id="user" selected="selected">false</option>
+                <input class="txt" id="iAdmin" class="mb-2" type="tel" name="admin" style="display:none" value="false">
+            }
+
+        </select>
+
+        <button class="btn-primary" onclick="save()">Cập nhật</button>
+    </form>
+</div>
+
+<script>
+    function changeOption() {
+        var selectElement = document.querySelector('#admin');      
+        var output = selectElement.value;
+        document.getElementById('iAdmin').value = output;
+    }
+
+    function save() {
+       
+        var uPass = document.getElementById("uPass").innerHTML || document.getElementById("uPass").value;        
+        var uEmail = document.getElementById("uEmail").innerHTML || document.getElementById("uEmail").value;
+        var uPhone = document.getElementById("uPhone").innerHTML || document.getElementById("uPhone").value;
+        var uLocation = document.getElementById("uLocation").innerHTML || document.getElementById("uLocation").value;
+        var admin = document.getElementById('admin');
+        admin = admin.options[admin.selectedIndex].text;
+        if (uName == "" || uEmail == "" || uPhone == "" || uLocation == "" || uPass == "") {
+            alert('Không để trống thông tin!');
+        } else { //(int id, string size, decimal price, string image, string name, int count)
+            location.href = window.location.protocol + "//" + window.location.host + "@Url.Action("SaveAccount")?id=@acc.userID&pass=" + uPass + "&email=" + uEmail + "&phone=" + uPhone + "&location=" + uLocation + "&admin=" + admin;
+        }
+    }
+</script>

@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link href="../Content/Style-login.css" rel="stylesheet" />
+</head>
+<div class="container signin-area">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Sign up new account.</h5>
+                    <form class="form-signin" method="post" action="#">
+                        <div class="form-label-group">
+                            <input type="email"  name="email" id="inputEmail" class="form-control" placeholder="name@example.com" required autofocus>
+                            <label class="label-email" for="inputEmail">This will be your new ID.</label>
+                        </div>
+                        <hr class="my-2">
+                        <div class="form-label-group mt-3">
+                            <input type="password"  name="password" id="" class="form-control" placeholder="Password" required>
+                        </div>                        
+                        <div class="form-label-group my-2">
+                            <input type="password"  name="verifyPassword" id="" class="form-control" placeholder="Confirm password" required>
+                        </div>
+                        <hr class="my-4">
+                        <div class="form-label-group">
+                            <input type="text" id="" name="phone" class="form-control" placeholder="Phone number" required>
+                        </div>
+                        <hr class="my-2">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                        <div class="account-options">
+                            <a href="#" class="revoke">Forgot your password ?</a>
+                            <br>
+                            <a href="@Url.Action("Login","Home")" class="register">Go to login.</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="my-5"/>  
+</div>
+

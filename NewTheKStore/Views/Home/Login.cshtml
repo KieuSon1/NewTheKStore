@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link href="../Content/Style-login.css" rel="stylesheet" />
+</head>
+<div class="container signin-area">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Please sign in.</h5>
+                    <form class="form-signin"  method="post" action="#">
+                        <div class="form-label-group">
+                            <input type="email" name="email" id="" class="form-control" placeholder="Email address" required autofocus>
+                        </div>
+                        <hr class="my-2">
+                        <div class="form-label-group">
+                            <input type="password"  name="password" id="" class="form-control" placeholder="Password" required>
+                        </div>
+                        <hr class="my-2">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                        <div class="account-options">
+                            <a href="#" class="revoke">Forgot your password ?</a>
+                            <br>
+                            <a href="@Url.Action("SignUp","Home")" class="register">Create new account.</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="my-5" />
+</div>
+
+

@@ -1,0 +1,115 @@
+﻿@using NewTheKStore.Models;
+@{
+    ViewBag.Title = "Bill";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    List<cart> cartList = ViewBag.carts;
+    List<cartinfo> cartI = ViewBag.cartsI;
+    string pending = ViewBag.pending;
+}
+<link rel="stylesheet" href="../Content/Admin/style-Bill.css">
+<link rel="stylesheet" href="../Content/Admin/style-ListAccount.css">
+<div class="Content animated fadeIn">
+    <!-- Đây Là Chỗ Để Render Body Khi Quăng Vào MVC -->
+    <!-- Nó Sẽ Thay Đổi Dựa Theo Người Dùng Muốn Click Coi Gì -->
+    <div class="container-fluid">
+        <div class="row">
+            <h5 class="col-lg-2 col-md-3 col-sm-5 col-10  my-auto mx-3" style="color : white">Danh sách đơn hàng</h5>
+        </div>
+
+        <div class="dropdown listsearch mb-3 mt-3">
+            Sắp xếp theo:
+            @if (pending == "")
+            {
+                <button class="btn btnlistsearch btn-primary dropdown-toggle ml-1" type="button" id="dropdownListSearch" data-bs-toggle="dropdown" aria-expanded="false">Theo giá trị đơn hàng - tăng</button>
+            }
+            else
+            {
+                <button class="btn btnlistsearch btn-primary dropdown-toggle ml-1" type="button" id="dropdownListSearch" data-bs-toggle="dropdown" aria-expanded="false">@pending</button>
+            }
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownListSearch">
+                <li><a class="dropdown-item" href="#" onclick="FindTypeAccount(0)">Theo giá trị đơn hàng - tăng</a></li>
+                <li><a class="dropdown-item" href="#" onclick="FindTypeAccount(1)">Theo giá trị đơn hàng - giảm</a></li>
+                <li><a class="dropdown-item" href="#" onclick="FindTypeAccount(2)">Ngày đặt hàng - gần nhất</a></li>
+                <li><a class="dropdown-item" href="#" onclick="FindTypeAccount(3)">Ngày đặt hàng - xa nhất</a></li>
+                <li><a class="dropdown-item" href="#" onclick="FindTypeAccount(4)">Tình Trạng: Đang thực hiện</a></li>
+                <li><a class="dropdown-item" href="#" onclick="FindTypeAccount(5)">Tình Trạng: Hoàn Thành</a></li>
+            </ul>
+            
+        </div>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Mã Đơn</th>
+                    <th scope="col">Giá</th>
+                    <th scope="col">Ngày Đặt</th>
+                    <th scope="col">Ngày Giao</th>
+                    <th scope="col">Địa Chỉ</th>
+                    <th scope="col">Tình Trạng</th>
+                    <th scope="col">Thêm</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < cartList.Count; i++)
+                {
+                    decimal total = 0;
+                    List<cartinfo> cartF = cartI.Where(x => x.cartID == cartList[i].cartID).ToList();
+                    foreach (cartinfo cF in cartF)
+                    {
+                        total += cF.price * cF.quantity??1;
+                    }
+                <tr>
+                    <th scope="row">@(i+1)</th>
+                    <td>@string.Format("{0:#,##0}", total).Replace(".0000", String.Empty) đ</td>
+                    <td>@cartList[i].orderdate.ToString("dd/MM/yyyy")</td>
+                    <td>@cartList[i].deliverydate.ToString("dd/MM/yyyy")</td>
+                    <td>@cartList[i].location</td>
+                    @if (cartList[i].type == 0)
+                    {
+                        <td>Chưa giao</td>
+                        <td>
+                            <a href="@Url.Action("BillInfo","Admin")?id=@cartList[i].cartID">Xem Chi Tiết</a> |
+                            <a href="@Url.Action("ConfirmBill","Admin")?id=@cartList[i].cartID">Hoàn thành</a>
+                        </td>
+                    }
+                    else if (cartList[i].type == 1)
+                    {
+                        <td>Hoàn thành</td>
+                        <td>
+                            <a href="@Url.Action("BillInfo","Admin")?id=@cartList[i].cartID">Xem Chi Tiết</a>
+                        </td>
+                    }
+
+                </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function FindTypeAccount(id) {
+        switch (id) {
+            case 0:
+                window.location.href = "@Url.Action("Bill")?priceT=true";
+                break;
+            case 1:
+                window.location.href = "@Url.Action("Bill")?priceG=true";
+                break;
+            case 2:
+                window.location.href = "@Url.Action("Bill")?pNew=true";
+                break;
+            case 3:
+                window.location.href = "@Url.Action("Bill")?pOld=true";
+                break;
+            case 4:
+                window.location.href = "@Url.Action("Bill")?holding=true";
+                break;
+            case 5:
+                window.location.href = "@Url.Action("Bill")?complete=true";
+                break;
+        }
+    }
+</script>
+

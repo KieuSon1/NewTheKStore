@@ -1,0 +1,45 @@
+﻿@using NewTheKStore.Models;
+@{
+    ViewBag.Title = "BillInfo";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    List<cartinfo> cartI = ViewBag.cartsI;
+    List<product> pList = ViewBag.pList;
+}
+<link rel="stylesheet" href="../Content/Admin/style-BillInfo.css">
+<div class="Content animated fadeIn">
+    <!-- Đây Là hỗ Để Render Body Khi Quăng Vào MVC -->
+    <!-- Nó Sẽ Thay Đổi Dựa Theo Người Dùng Muốn Click Coi Gì -->
+    <div class="container-fluid">
+        <div class="row">
+            <h5 class="col-lg-2 col-md-3 col-sm-5 col-10  my-auto mx-3" style="color : white">Danh sách đơn hàng</h5>
+        </div>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Ảnh</th>
+                    <th scope="col">Tên Sản Phẩm</th>
+                    <th scope="col">Tùy chọn</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Giá</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < cartI.Count; i++)
+                {
+                    product p = pList.FirstOrDefault(x => x.productID == cartI[i].productID);
+                        <tr>
+                            <th scope="row">@(i+1)</th>
+                            <td><img class="image" src="../Content/img/product/list/@p.imgscr" width="50%" alt=""></td>
+                            <td>@p.name</td> 
+                            <td>@p.processor / @p.memory GB/ @p.storage SSD</td>
+                            <td>@cartI[i].quantity</td>
+                            <td>@string.Format("{0:#,##0}", cartI[i].price * cartI[i].quantity).Replace(".0000", String.Empty) đ</td>
+                        </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+

@@ -1,0 +1,97 @@
+﻿@using NewTheKStore.Controllers;
+@using NewTheKStore.Models;
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<Cart> cart = ViewBag.Cart;
+    List<product> product = ViewBag.product;
+    decimal totalPrice = 0;
+
+    List<(string, string)> catalog = new List<(string, string)>();
+}
+<head>
+    <link href="../Content/Style-cart.css" rel="stylesheet" />
+
+</head>
+<div class="container item-pane py-5">
+    @for (int i = 0; i < cart.Count; i++)
+    {
+        product p = @product.FirstOrDefault(x => x.productID == cart[i].id);
+        totalPrice += (decimal)(cart[i].price * cart[i].count);
+        <div class="row ">
+            <div class="col-lg-3 card-img">
+                <img src="../Content/img/product/list/@p.imgscr" width="75%" alt="">
+            </div>
+            <div class="col-lg-3 pt-4">
+                <h4>
+                    @p.name
+                </h4>
+                <h5 class="option">
+                    CPU @p.processor<br>@p.storage SSD <br>@p.memory Memory
+                </h5>
+            </div>
+            <div class="col-lg-3 pt-4">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @cart.FirstOrDefault(x => x.id == p.productID).count
+                    </button>
+                    <input type="number" name="quantity" value="@cart.FirstOrDefault(x=>x.id == p.productID).count" id="quantity_@p.productID" onchange="changeCount(@p.productID)" />
+                </div>
+            </div>
+            <div class="col-lg-3 pt-4">
+                <h4>@string.Format("{0:#,##0.00}", @p.price * @cart.FirstOrDefault(x => x.id == p.productID).count).Replace(".00", String.Empty)Đ</h4>
+            </div>
+        </div>
+        <hr>
+    }
+
+
+    <div class="row pt-2">
+        <div class="col-lg-6"></div>
+        <div class="check-out-money col-lg-6">
+            <h4>
+                @string.Format("{0:#,##0.00}", @totalPrice).Replace(".00", String.Empty)Đ
+
+            </h4>
+        </div>
+    </div>
+    <div class="row pt-5">
+        <div class="purchase col-lg-6">
+            <div class="align-content-end">
+                <button type="button" class="btn btn-outline-dark btn-lg" onclick="checkout()">Purchase</button>
+                <button type="button" class="btn bth-outline-dark btn-lg" onclick="golandingpage()">Continue shopping</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<script>
+
+    function golandingpage() {
+         window.location.href = "@Url.Action("Index","Home")";
+    }
+
+    function checkout() {
+        window.location.href = "@Url.Action("ComfirmPay")";
+    }
+
+    function changeCount(id) {
+        var count = document.getElementById("quantity_" + id).value || document.getElementById("quantity_" + id).innerHTML ;
+        console.log(count);
+        console.log(id);
+
+        jQuery.ajax({
+            type: 'POST',
+            url: 'UpdateCart/',
+            data: { id: id, count: count },
+            success: function (data) {
+                alert('Cập nhật thành công!');
+                window.location.reload();
+            }
+        });
+
+    }
+</script>
+
